@@ -135,22 +135,22 @@ Topic | Value | Description
 ---|---|---
 lumi/light/set | {"state": "ON"} | Turn on the backlight
 lumi/light/set | {"state": "ON", "color":{"r":50, "g":50, "b":50}} | Turn on the backlight with a specified color
-lumi/light/set | {"state": "ON", "timeout": 30} | switch the light on and off after a specified time (sec)
+lumi/light/set | {"state": "ON", "timeout": 30} | Switch the light on and off after a specified time (sec)
 lumi/light/set | {"state": "OFF"} | Turn off the backlight
 ||
-lumi/audio/play/set |"http://ep128.hostingradio.ru:8030/ep128" | activate Radio Europe+
+lumi/audio/play/set |"https://stream.url/radio" | Play stream
 lumi/audio/play/set | "/tmp/test.mp3" | Play local audio file
-lumi/audio/play/set | {"url": "https://air.radiorecord.ru:805/rr_320", "volume": 50} | Turn on Radio Record at volume 50
-lumi/audio/play/set | "STOP" | turn off playback
+lumi/audio/play/set | {"url": "https://stream.url/radio", "volume": 50} | Play stream at volume 50
+lumi/audio/play/set | "STOP" | Turn off playback
 ||
-lumi/audio/volume/set | 30 | change the volume to 30
+lumi/audio/volume/set | 30 | Change the volume to 30
 ||
-lumi/say/set || "Hi" || Say 'Hi'
+lumi/say/set | "Hi" | Say 'Hi'
 lumi/say/set | {"text": "Hi", "volume": 80} | Say 'Hi' with volume 80
-lumi/say/set | {"text": "Hello", "lang": "en"} | Say "Hello
+lumi/say/set | {"text": "Hello", "lang": "en"} | Say 'Hello'
 ||
 lumi/alarm/set | {"state": "ON"} | Turn on flashing light
 lumi/alarm/set | {"state": "ON", "color":{"r":50, "g":50, "b":50}} | Turn on the flashing lamp with the color you specified
 lumi/alarm/set | {"state": "ON", "time": 1} | Turn on the flashing of the lamp at a frequency of 1 sec
-lumi/alarm/set | {"state": "ON", "count": 5} | switch on blinking of the lamp 5 times, then switch off
-lumi/alarm/set | {"state": "OFF"} | switch off the flashing lamp
+lumi/alarm/set | {"state": "ON", "count": 5} | Switch on blinking of the lamp 5 times, then switch off
+lumi/alarm/set | {"state": "OFF"} | Switch off the flashing lamp
