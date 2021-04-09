@@ -322,7 +322,7 @@ function setPlay(message) {
         }, 1 * 1000);
     } catch (e) {
         common.myLog(e, common.colors.red);
-        sayText('Произошла ошибка!', 'ru');
+        sayText('There was a mistake!', 'en');
     }
 }
 
@@ -386,7 +386,7 @@ function setSay(message) {
         }
     } catch (e) {
         common.myLog(e, common.colors.red);
-        sayText('Произошла ошибка!', 'ru');
+        sayText('There was a mistake!', 'en');
     }
 }
 
