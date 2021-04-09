@@ -1,37 +1,34 @@
 # Lumi MQTT
 
-MQTT агент для шлюза Xiaomi DGNWG05LM с прошивкой [OpenWRT 19.07.7](https://github.com/openlumi/openwrt/tags).  
-Позволяет взаимодействовать со шлюзом через MQTT.
+Translated version (readme and logging messages) of [Beetle-II/lumi](https://github.com/Beetle-II/lumi).
 
-Взаимодействие | MQTT topic, получение | MQTT topic, управление
+MQTT agent for Xiaomi gateway DGNWG05LM or ZHWG11LM with [OpenWRT 19.07.7](https://github.com/openlumi/openwrt/tags) firmware.  
+Allows you to interact with the gateway via MQTT.
+
+Interaction | MQTT topic, getting | MQTT topic, control
 --- | --- | ---
-Встроенный датчик освещения | lumi/illumination
-Подсветка | lumi/lamp | lumi/lamp/set
-Уведомление подсветкой |  | lumi/alarm/set
-Кнопка | lumi/button/action
-Воспроизводимый url, volume | lumi/audio/play | lumi/audio/play/set
-Громкость | lumi/audio/volume | lumi/audio/volume/set
-Голосовое уведомление |  | lumi/say/set
-BLE устройства | lumi/{MAC} |
+Built in light sensor | lumi/illumination
+Illumination | lumi/lamp | lumi/lamp/set
+lumi/illumination | | lumi/alarm/set
+Button | lumi/button/action
+Playable url, volume | lumi/audio/play | lumi/audio/play/set
+Volume | lumi/audio/volume | lumi/audio/volume/set
+Voice memo | | lumi/say/set
+BLE devices | lumi/{MAC} |
 
-{MAC} - адрес bluetooth устройства.
-
-[Примеры команд](#примеры-команд)
-
----
-Вопросы и обсуждение - https://t.me/lumi_mqtt
+{MAC} is the address of the Bluetooth device.
 
 ---
 
-### Замеченные проблемы:
+### Problems noticed:
 
-На некоторых шлюзах при включении сканирования BLE устройств возникают проблемы с работой WiFi.  
-Связь со шлюзом становиться не стабильной.
+Some gateways have problems with WiFi operation when BLE device scanning is enabled.  
+The connection to the gateway becomes unstable.
 
 ---
-Для скачивания и работы необходимы пакеты node.js, git, mpc
+You need node.js, git, mpc packages to download and work
 
-Добавляем репозиторий со свежими версиями Node и устанавливаем необходимые пакеты:
+Add a repository with the latest versions of Node and install the necessary packages:
 
 ```
 wget https://openlumi.github.io/openwrt-packages/public.key -O /tmp/public.key
@@ -39,19 +36,21 @@ opkg-key add /tmp/public.key
 echo 'src/gz openlumi https://openlumi.github.io/openwrt-packages/packages/19.07/arm_cortex-a9_neon' >> /etc/opkg/customfeeds.conf
 
 opkg update && opkg install node git-http mpc mpd-full
+
+/etc/init.d/mpd start
 ```
 
-Скачиваем:
+Download:
 
 ```
 mkdir /opt
 cd /opt
-git clone https://github.com/Beetle-II/lumi.git
+git clone https://github.com/danielk117/lumi.git
 cd lumi
 cp config_example.json config.json
 ```
 
-Изменяем конфигурационный файл config.json Указываем адрес своего сервера, логин и пароль
+Change the config.json configuration file Specify your server address, login and password
 
 ```json
 {
@@ -85,29 +84,29 @@ cp config_example.json config.json
 }
 ```
 
-Параметр | Описание
+Parameter | Description
 --- | ---
-"homeassistant": true | уведомлять MQTT брокер об устройствах шлюза. Помогает добавлять устройства в HomeAssistant
-"use_ble": false | включить сканирование и отправку данных c BLE устройств
+"homeassistant": true | notify MQTT broker of gateway devices. Helps to add devices to HomeAssistant
+"use_ble": false | enable scanning and sending data from BLE devices
 ||
-"tts_cache": true | кешировать файлы TTS после воспроизведения
+"tts_cache": true | cache TTS files after playback
 ||
-"sound_channel": "Master" | канал для вывода звука
-"sound_volume": 50 | громкость, задаваемая по умолчанию
+"sound_channel": "master" | channel for sound output
+"sound_volume": 50 | default volume
 ||
-"sensor_debounce_period": 300 | период отправки данных о состоянии устройств (в секундах)
-"sensor_treshhold": 50 | порог изменения состояния датчика, для моментальной отправки данных
-"button_click_duration": 300 | время в мс между кликами кнопкой.
+"sensor_debounce_period": 300 | period of sending data about the state of the devices (in seconds)
+"sensor_treshhold": 50 | threshold for changing the state of the sensor, to send data instantly
+"button_click_duration": 300 | time in ms between button clicks.
 ||
-"use_mac_in_mqtt_topic": true | добавить MAC шлюза в MQTT топики
+"use_mac_in_mqtt_topic": true | add MAC gateway to MQTT topics
 
-Запускаем:
+Run:
 
 ```
 node /opt/lumi/lumi.js
 ```
 
-Проверяем что пошли данные от датчиков и добавляем в автозапуск:
+Check if there is data from the sensors and add to the autorun:
 
 ```
 cd /opt/lumi
@@ -119,7 +118,7 @@ cp lumi /etc/init.d/lumi
 
 ---
 
-### Обновить до актуальной версии:
+### Update to the current version:
 
 ```
 /etc/init.d/lumi stop
@@ -130,28 +129,28 @@ git pull
 
 ---
 
-### Примеры команд:
+### Example commands:
 
-Топик | Значение | Описание
+Topic | Value | Description
 ---|---|---
-lumi/light/set | {"state":"ON"} | Включить подсветку
-lumi/light/set | {"state":"ON", "color":{"r":50,"g":50,"b":50}} | Включить подсветку с указанным цветом
-lumi/light/set | {"state":"ON", "timeout": 30} | Включить подсветку и выключить через указанное время (сек)
-lumi/light/set | {"state":"OFF"} | Выключить подсветку
+lumi/light/set | {"state": "ON"} | Turn on the backlight
+lumi/light/set | {"state": "ON", "color":{"r":50, "g":50, "b":50}} | Turn on the backlight with a specified color
+lumi/light/set | {"state": "ON", "timeout": 30} | switch the light on and off after a specified time (sec)
+lumi/light/set | {"state": "OFF"} | Turn off the backlight
 ||
-lumi/audio/play/set | "http://ep128.hostingradio.ru:8030/ep128" | Включить Радио Европа+
-lumi/audio/play/set | "/tmp/test.mp3" | Воспроизвести локальный звуковой файл
-lumi/audio/play/set | {"url": "https://air.radiorecord.ru:805/rr_320", "volume": 50} | Включить Радио рекорд с громкостью 50
-lumi/audio/play/set | "STOP" | Выключить воспроизведение
+lumi/audio/play/set |"http://ep128.hostingradio.ru:8030/ep128" | activate Radio Europe+
+lumi/audio/play/set | "/tmp/test.mp3" | Play local audio file
+lumi/audio/play/set | {"url": "https://air.radiorecord.ru:805/rr_320", "volume": 50} | Turn on Radio Record at volume 50
+lumi/audio/play/set | "STOP" | turn off playback
 ||
-lumi/audio/volume/set | 30 | Именить громкость на 30
+lumi/audio/volume/set | 30 | change the volume to 30
 ||
-lumi/say/set | "Привет" | Произнести 'Привет'
-lumi/say/set | {"text": "Привет", "volume": 80} | Произнести 'Привет' с громкостью 80
-lumi/say/set | {"text": "Hello", "lang": "en"} | Произнести 'Hello'
+lumi/say/set || "Hi" || Say 'Hi'
+lumi/say/set | {"text": "Hi", "volume": 80} | Say 'Hi' with volume 80
+lumi/say/set | {"text": "Hello", "lang": "en"} | Say "Hello
 ||
-lumi/alarm/set | {"state":"ON"} | Включить мигание лампой
-lumi/alarm/set | {"state":"ON", "color":{"r":50,"g":50,"b":50}} | Включить мигание лампой указанным цветом
-lumi/alarm/set | {"state":"ON", "time": 1} | Включить мигание лампой с частотой 1 сек
-lumi/alarm/set | {"state":"ON", "count": 5} | Включить мигание лампой 5 раз, после отключить
-lumi/alarm/set | {"state":"OFF"} | Выключить мигание лампой
+lumi/alarm/set | {"state": "ON"} | Turn on flashing light
+lumi/alarm/set | {"state": "ON", "color":{"r":50, "g":50, "b":50}} | Turn on the flashing lamp with the color you specified
+lumi/alarm/set | {"state": "ON", "time": 1} | Turn on the flashing of the lamp at a frequency of 1 sec
+lumi/alarm/set | {"state": "ON", "count": 5} | switch on blinking of the lamp 5 times, then switch off
+lumi/alarm/set | {"state": "OFF"} | switch off the flashing lamp
