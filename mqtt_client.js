@@ -21,6 +21,7 @@ mqtt_client.on('connect', () => {
 mqtt_client.on('message', (topic, message) => {
     common.myLog('Получен topic= ' + topic, common.colors.yellow);
     common.myLog('message = ' + message);
+    topic = topic.replace(common.config.mqtt_topic, 'dummy');
     try {
         switch (topic.split("/")[1]) {
             case 'light':
